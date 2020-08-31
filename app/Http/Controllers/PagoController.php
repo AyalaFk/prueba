@@ -15,7 +15,9 @@ class PagoController extends Controller
     public function index()
     {
         //
-        return view ('pago.index');
+		$pagos= Pago::all();
+		//return (compact('pagos'));
+        return view ('pago.index', compact('pagos'));
     }
 
     /**
@@ -26,6 +28,8 @@ class PagoController extends Controller
     public function create()
     {
         //
+
+		return view ('pago.create');
     }
 
     /**
@@ -43,13 +47,8 @@ class PagoController extends Controller
         //Recibimos el archivo y lo guardamos en la carpeta storage/app/public
         //$request->file('archivo')->store('public');
 
-        $npe= new Pago();
-        $npe->npe=(string)$url;
-        $npe->decodificado=(string)$url;
-        
-        $npe->created_at = date('Y-m-d H:m:s');
-        $npe->updated_at = date('Y-m-d H:m:s');
-        $npe->save();
+       
+        //$npe->save();
 
         $contents = array();
         $prueba=fopen($file,"r") or die ("Error al leer");
@@ -65,12 +64,7 @@ class PagoController extends Controller
         fclose($prueba);
 
 
-        $array = array('perro', 'gato', 'avestruz');
-        $array_num = count($array);
-        for ($i = 0; $i < $array_num; ++$i){
-            //print $array[$i];
-            $valorf=$array[$i];
-        }
+        
 
         // npe corto 91 y npe largo 118
 
@@ -80,14 +74,56 @@ class PagoController extends Controller
 
           if(strlen($val)==118){
             $contentss[] = preg_replace('/\s+/', '', $val);
+			
             $hora=substr($val, 7, 8);
             $fecha=substr($val, 15, 8);
             $monto_a=substr($val, 50, 4);
+			$entero=substr($val, 50, 2);
+			$decimal=substr($val, 52, 2);
+			$punto=".";
+			$monto_dolar=$entero.$punto.$decimal;
             $monto_b=substr($val, 83, 4);
             $vencimiento=substr($val, 89, 8);
             $codigo=substr($val, 101, 6);
             $anio_cuota=substr($val, 107, 6);
             $cuenta=substr($val, 113, 2);
+			
+			$npe= new Pago();
+			$npe->npe=(string)$url;
+			$npe->decodificado=$val;
+			//$npe->created_at = date('Y-m-d H:m:s');
+			//$npe->updated_at = date('Y-m-d H:m:s');H:i:s
+			$horaf =date('H:m:s',strtotime($hora));
+			$npe->hora=$horaf;
+			$fechad =date('Y-m-d',strtotime($fecha));
+			$npe->fecha=$fechad;
+			$npe->monto_a=(float)$monto_dolar;
+			$npe->monto_b=$monto_b;
+			$fechav =date('Y-m-d',strtotime($vencimiento));
+			$npe->vencimiento=$fechav;
+			$npe->codigo=$codigo;
+			$npe->anio_cuota=$anio_cuota;
+			$npe->cuenta=$cuenta;
+						switch ($cuenta) {
+					case 14:
+						$npe->cuenta_nombre="Nueva Mayor de 35";
+						break;
+					case 15:
+						$npe->cuenta_nombre="Nueva Menor de 35";
+						break;
+					case 16:
+						$npe->cuenta_nombre="Nueva Departamental";
+						break;
+					case 17:
+						$npe->cuenta_nombre="Nueva Sin Prestaciones";
+						break;
+					case 18:
+						$npe->cuenta_nombre="Nueva Ausente";
+						break;
+				}
+			$npe->tipo_pago='BAR';	
+			$npe->save();
+			
             $datos[] = ['hora' => $hora, 'fecha' => $fecha, 'monto_a' => $monto_a, 'monto_b' => $monto_b, 'vencimiento' => $vencimiento,
              'codigo' => $codigo, 'anio_cuota' => $anio_cuota, 'cuenta' => $cuenta];
             
@@ -101,6 +137,10 @@ class PagoController extends Controller
             $hora=substr($val, 7, 8);
             $fecha=substr($val, 15, 8);
             $monto_a=substr($val, 50, 4);
+			$entero=substr($val, 50, 2);
+			$decimal=substr($val, 52, 2);
+			$punto=".";
+			$monto_dolar=$entero.$punto.$decimal;
             $monto_b=substr($val, 60, 4);
             $vencimiento=substr($val, 64, 8);
             $codigo=substr($val, 73, 6);
@@ -108,7 +148,41 @@ class PagoController extends Controller
             $cuenta=substr($val, 85, 2);
             $datos[] = ['hora' => $hora, 'fecha' => $fecha, 'monto_a' => $monto_a, 'monto_b' => $monto_b, 'vencimiento' => $vencimiento,
              'codigo' => $codigo, 'anio_cuota' => $anio_cuota, 'cuenta' => $cuenta];
-
+            $npe= new Pago();
+			$npe->npe=(string)$url;
+			$npe->decodificado=$val;
+			//$npe->created_at = date('Y-m-d H:m:s');
+			//$npe->updated_at = date('Y-m-d H:m:s');H:i:s
+			$horaf =date('H:m:s',strtotime($hora));
+			$npe->hora=$horaf;
+			$fechad =date('Y-m-d',strtotime($fecha));
+			$npe->fecha=$fechad;
+			$npe->monto_a=(float)$monto_dolar;
+			$npe->monto_b=$monto_b;
+			$fechav =date('Y-m-d',strtotime($vencimiento));
+			$npe->vencimiento=$fechav;
+			$npe->codigo=$codigo;
+			$npe->anio_cuota=$anio_cuota;
+			$npe->cuenta=$cuenta;
+			switch ($cuenta) {
+					case 14:
+						$npe->cuenta_nombre="Nueva Mayor de 35";
+						break;
+					case 15:
+						$npe->cuenta_nombre="Nueva Menor de 35";
+						break;
+					case 16:
+						$npe->cuenta_nombre="Nueva Departamental";
+						break;
+					case 17:
+						$npe->cuenta_nombre="Nueva Sin Prestaciones";
+						break;
+					case 18:
+						$npe->cuenta_nombre="Nueva Ausente";
+						break;
+				}
+			$npe->tipo_pago='NPE';	
+			$npe->save();
           
       }
 
@@ -125,8 +199,9 @@ class PagoController extends Controller
           //       $contents[] = $line;
             //    }
 
-          dd ($datos);
-          return compact(hora,fecha,monto_a,monto_b,vencimiento,codigo,anio_cuota,cuenta);
+          //dd ($datos);
+          //return compact(hora,fecha,monto_a,monto_b,vencimiento,codigo,anio_cuota,cuenta);
+		  return redirect()->action('PagoController@index');
         //dd($contentss);
         
          //dd( strlen($saltodelinea));

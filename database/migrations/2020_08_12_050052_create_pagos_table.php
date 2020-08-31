@@ -17,15 +17,17 @@ class CreatePagosTable extends Migration
             $table->id();
             $table->text('npe')->nullable();
             $table->text('decodificado')->nullable();
-            $table->text('hora')->nullable();
-            $table->text('fecha')->nullable();
-            $table->text('monto_a')->nullable();
-            $table->text('monto_b')->nullable();
-            $table->text('vencimiento')->nullable();
-            $table->text('codigo')->nullable();
+            $table->time('hora')->nullable();
+            $table->date('fecha')->nullable();
+            $table->float('monto_a')->nullable();
+            $table->float('monto_b')->nullable();
+            $table->date('vencimiento')->nullable();
+            $table->integer('codigo')->nullable();
             $table->text('anio_cuota')->nullable();
-            $table->text('cuenta')->nullable();
-
+            $table->integer('cuenta')->nullable();
+			$table->text('cuenta_nombre')->nullable();
+			$table->string('tipo', 3)->nullable();
+			$table->enum('tipo_pago', ['NPE', 'BAR'])->nullable();
 
             $table->timestamps();
         });

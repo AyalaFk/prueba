@@ -3,9 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+	<a href="{{route('pago.create')}}">Decodificar Pago</a>
+	<button type="button" class="btn btn-primary" onclick="window.location='{{ url("pago/create") }}'" > Decodificar Pago</button>
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><h2>Cargar NPE</h2></div>
+                <div class="card-header"><h2>Pagos Decodificados</h2></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -15,15 +17,43 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+					<div class="row">
+					<div class="col-md-12">
+					<table class="table table-striped ">
+						<thead>
+								<tr>
+								  <th scope="col">#</th>
+								  <th scope="col">Codigo</th>
+								  <th scope="col">Monto</th>
+								  <th scope="col">Tipo</th>
+								  <th scope="col">Cuenta</th>
+								  <th scope="col">Fecha</th>
+								  <th scope="col">Hora</th>
+								  <th scope="col">Vencimiento</th>
+								  <th scope="col">Decodificado</th>
+								  
+								</tr>
+							  </thead>
+							<tbody>
+								@foreach($pagos as $pg) 
+								<tr>
+								  <th scope="row">1</th>
+								  <td>{{ $pg->codigo }}</td>
+								  <td>{{ $pg->monto_a }}</td>
+								  <td>{{ $pg->tipo_pago }}</td>
+								  <td>{{ $pg->cuenta_nombre }}</td>
+								  <td>{{ $pg->fecha }}</td>
+								  <td>{{ $pg->hora }}</td>
+								  <td>{{ $pg->vencimiento }}</td>
+								  <td>{{ $pg->decodificado }}</td>
+								</tr>
+								@endforeach
+							  </tbody>
+						</table>
 
 
 
-                    <form method="POST" action="{{route('pago.store')}}" accept-charset="UTF-8" enctype="multipart/form-data">
-                      {{ csrf_field() }}
-                      <label for="archivo"><b>Archivo: </b></label><br>
-                      <input type="file" name="archivo" required>
-                      <input class="btn btn-success" type="submit" value="Enviar" >
-                    </form>
+                   
 
                 </div>
             </div>
