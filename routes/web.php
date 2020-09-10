@@ -29,3 +29,7 @@ Route::resource('/role', 'RoleController')->names('role');
 Route::resource('/pago', 'PagoController')->names('pago');
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

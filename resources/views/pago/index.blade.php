@@ -19,7 +19,7 @@
                     {{ __('You are logged in!') }}
 					<div class="row">
 					<div class="col-md-12">
-					<table class="table table-striped ">
+					<table class="table table-striped data-table">
 						<thead>
 								<tr>
 								  <th scope="col">#</th>
