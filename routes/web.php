@@ -28,6 +28,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/role', 'RoleController')->names('role');
 Route::resource('/pago', 'PagoController')->names('pago');
 
+ Route::resource('usuarios','UsuarioController');
+ Route::get('usuarios/{id}/edit/','UsuarioController@edit');
+
 
 
 Auth::routes();
