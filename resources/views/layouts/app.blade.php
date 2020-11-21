@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" >
 </head>
 <body>
     <div id="app">
@@ -76,5 +77,26 @@
             @yield('content')
         </main>
     </div>
+	@section('scripts')
+		<!-- DataTable -->
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+	<script type="text/javascript">
+    $(document).ready(function() {
+    $('#id_test').DataTable({
+		"serverSide": true,
+		"ajax": "{{ url('/obtenerpagos') }}",
+		"columns": [
+		{data: 'id'},
+		{data: 'npe'},
+		{data: 'id'},
+		{data: 'id'},
+		]
+	});
+} );
+    </script>
+@endsection	
 </body>
 </html>

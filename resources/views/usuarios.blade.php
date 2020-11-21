@@ -117,7 +117,11 @@ document.userForm.btnsave.disabled=true
 <script type="text/javascript">
 
 $(document).ready(function () {
-
+--
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+--
 var table = $('.data-table').DataTable({
 processing: true,
 serverSide: true,

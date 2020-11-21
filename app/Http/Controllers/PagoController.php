@@ -15,9 +15,10 @@ class PagoController extends Controller
     public function index()
     {
         //
-		$pagos= Pago::all();
+		$pagos= Pago::all()->sortByDesc('id');
 		//return (compact('pagos'));
-        return view ('pago.index', compact('pagos'));
+		//return view ('pago.main');
+        return view ('pago.index');
     }
 
     /**
@@ -252,5 +253,12 @@ class PagoController extends Controller
     public function destroy($id)
     {
         //
+    }
+	
+	    public function obtenerpagos()
+    {
+
+		//return view ('pago.create');
+		return datatables()->of(Pago::all())->toJson();
     }
 }

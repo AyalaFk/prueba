@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Auth::routes();
@@ -31,8 +31,11 @@ Route::resource('/pago', 'PagoController')->names('pago');
  Route::resource('usuarios','UsuarioController');
  Route::get('usuarios/{id}/edit/','UsuarioController@edit');
 
-
+Route::get('/obtenerpagos', 'PagoController@obtenerpagos')->name('obtenerpagos');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/exportar', 'HomeController@export');
+Route::get('/exportarexcel', 'HomeController@exportExcel');
