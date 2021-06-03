@@ -259,6 +259,7 @@ class PagoController extends Controller
     {
 
 		//return view ('pago.create');
-		return datatables()->of(Pago::all())->toJson();
+		$pagos= Pago::all()->sortByDesc('id');
+		return PagoResource::collection($pagos);
     }
 }

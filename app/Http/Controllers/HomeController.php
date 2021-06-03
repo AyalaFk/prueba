@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Exports\VentasExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ReporteVentaExport;
 
 class HomeController extends Controller
 {
@@ -61,5 +62,14 @@ class HomeController extends Controller
 
             /** Descargamos nuestro archivo pasandole la extensión deseada (xls, xlsx) */
         })->download('xlsx');
+    }
+	
+		public function export3(Request $request){
+        //return Excel::download(new VentasExport, 'ventas.xlsx');
+		$fecha=$request->input('date');
+		$data = DB::select('select ventas_diarias_p (?)',array($fecha));
+		//$data = DB::select('select ventas_diarias_p(?)', [$fecha]);
+		return(new ReporteVentaExport)->forDate($request->input('date'))->download('ventas.xlsx');
+		//dd($request);
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Exports\VentasExport;
+use App\Exports\ReporteVentaExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +42,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/exportar', 'HomeController@export');
 Route::get('/exportarexcel', 'HomeController@exportExcel');
+Route::get('/exportarexcel2',function(){
+	return(new ReporteVentaExport)->forDate('2021-02-21')->download('ventas.xlsx');
+});
+//Route::get('/exportarexcel3/{fecha}', 'HomeController@export3');
+Route::post('/exportarexcel3', 'HomeController@export3')->name('export3');
